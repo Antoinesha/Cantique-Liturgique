@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "788479091998",
+    "project_id": "cantique-liturgique-d1b5b",
+    "storage_bucket": "cantique-liturgique-d1b5b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788479091998:android:63ff5d1a7b4a14cb11d50f",
+        "android_client_info": {
+          "package_name": "com.example.cantique_liturgique"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrVMFLLFwvo3e7xHkjJnTkOUuzdcKYYpI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
