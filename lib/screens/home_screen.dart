@@ -1,6 +1,7 @@
 import 'package:cantique_liturgique/screens/chants_screen.dart';
 import 'package:cantique_liturgique/screens/favoris_screen.dart';
 import 'package:cantique_liturgique/screens/profil_screen.dart';
+import 'package:cantique_liturgique/screens/programme_liturgique_screen.dart';
 import 'package:cantique_liturgique/screens/recherche_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //Center(child: Text("🔍 Recherche de chants")),
     //Center(child: Text("⭐ Favoris")),
     const FavorisScreen(),
+    const ProgrammeLiturgiqueScreen(),
     //Center(child: Text("👤 Profil utilisateur")),
     const ProfilScreen(),
   ];
@@ -44,6 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Recherche'),
           BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Favoris'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            label: 'Programme',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
         ],
       ),

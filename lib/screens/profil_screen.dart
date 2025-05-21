@@ -15,37 +15,106 @@ class ProfilScreen extends StatelessWidget {
     return snapshot.data();
   }
 
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "$label : ",
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          Expanded(
+            child: Text(
+              value.isNotEmpty ? value : "Non renseigné",
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>?>(
       future: _getUserData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
         }
 
         final data = snapshot.data;
 
         if (data == null) {
-          return const Center(
-            child: Text("Aucune donnée utilisateur trouvée."),
+          return const Scaffold(
+            body: Center(child: Text("Aucune donnée utilisateur trouvée.")),
           );
         }
 
-        return ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            const CircleAvatar(radius: 40, child: Icon(Icons.person, size: 40)),
-            const SizedBox(height: 16),
-            Text("Nom : ${data['nom'] ?? ''}"),
-            Text("Prénom : ${data['prenom'] ?? ''}"),
-            Text("Email : ${data['email'] ?? ''}"),
-            Text("Paroisse : ${data['paroisse'] ?? ''}"),
-            Text("Statut GALCAM : ${data['statut_galcam'] ?? ''}"),
-            Text("Fonction : ${data['fonction'] ?? ''}"),
-            Text("Niveau musical : ${data['niveau_musical'] ?? ''}"),
-            Text("Instruments : ${data['instruments'] ?? ''}"),
-          ],
+        return Scaffold(
+          appBar: AppBar(title: const Text("Mon Profil")),
+          body: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    const CircleAvatar(
+                      radius: 40,
+                      child: Icon(Icons.person, size: 40),
+                    ),
+                    const SizedBox(height: 20),
+                    _buildInfoRow("Nom", data['nom'] ?? ''),
+                    _buildInfoRow("Prénom", data['prenom'] ?? ''),
+                    _buildInfoRow("Email", data['email'] ?? ''),
+                    _buildInfoRow("Sexe", data['sexe'] ?? ''),
+                    _buildInfoRow(
+                      "Date de naissance",
+                      (data['date_naissance'] ?? '').toString(),
+                    ),
+                    _buildInfoRow(
+                      "Lieu de naissance",
+                      data['lieu_naissance'] ?? '',
+                    ),
+                    _buildInfoRow("Paroisse", data['paroisse'] ?? ''),
+                    _buildInfoRow("Statut GALCAM", data['statut_galcam'] ?? ''),
+                    _buildInfoRow("Fonction", data['fonction'] ?? ''),
+                    _buildInfoRow(
+                      "Niveau musical",
+                      data['niveau_musical'] ?? '',
+                    ),
+                    _buildInfoRow("Instruments", data['instruments'] ?? ''),
+                    const SizedBox(height: 20),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        // 🔜 Redirige vers la page de modification
+                        Navigator.pushNamed(context, '/modifier-profil');
+                      },
+                      icon: const Icon(Icons.edit),
+                      label: const Text("Modifier mon profil"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.purple,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         );
       },
     );
