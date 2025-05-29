@@ -1,3 +1,4 @@
+import 'package:cantique_liturgique/screens/modifier_profil_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -96,8 +97,15 @@ class ProfilScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     ElevatedButton.icon(
                       onPressed: () {
-                        // 🔜 Redirige vers la page de modification
-                        Navigator.pushNamed(context, '/modifier-profil');
+                        // 🔜 dirige vers la page de modification
+                        // Ajoute le code de direction vers la page de modification
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const ModifierProfilScreen(),
+                          ),
+                        );
                       },
                       icon: const Icon(Icons.edit),
                       label: const Text("Modifier mon profil"),

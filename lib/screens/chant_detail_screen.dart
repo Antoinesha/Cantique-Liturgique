@@ -88,37 +88,77 @@ class _ChantDetailScreenState extends State<ChantDetailScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Catégorie : ${widget.categorie}",
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(height: 8),
-            if (widget.tempsLiturgique.trim().isNotEmpty) ...[
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.white, Color(0xFFEDE7F6)], // blanc → violet pâle
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Text(
-                "Temps liturgique : ${widget.tempsLiturgique}",
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 16),
-            ],
-            const Text(
-              "Paroles :",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Text(
-                  widget.paroles,
-                  style: const TextStyle(fontSize: 16, height: 1.5),
+                "Catégorie : ${widget.categorie}",
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.deepPurple,
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 4),
+              if (widget.tempsLiturgique.trim().isNotEmpty)
+                Text(
+                  "Temps liturgique : ${widget.tempsLiturgique}",
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.black87,
+                  ),
+                ),
+              const SizedBox(height: 20),
+              const Text(
+                "Paroles",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple,
+                ),
+              ),
+              const Divider(thickness: 1),
+              const SizedBox(height: 10),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.9),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 6,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Text(
+                      widget.paroles,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        height: 1.6,
+                        fontFamily: 'Georgia', // liturgique et lisible
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
