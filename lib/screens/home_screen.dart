@@ -1,8 +1,8 @@
-import 'package:cantique_liturgique/screens/chants_screen.dart';
-import 'package:cantique_liturgique/screens/favoris_screen.dart';
-import 'package:cantique_liturgique/screens/profil_screen.dart';
+import 'package:cantique_liturgique/screens/Chants/chants_screen.dart';
+import 'package:cantique_liturgique/screens/Chants/favoris_screen.dart';
+import 'package:cantique_liturgique/screens/Profiles/profil_screen.dart';
 import 'package:cantique_liturgique/screens/programme_liturgique_screen.dart';
-import 'package:cantique_liturgique/screens/recherche_screen.dart';
+import 'package:cantique_liturgique/screens/Search/recherche_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {

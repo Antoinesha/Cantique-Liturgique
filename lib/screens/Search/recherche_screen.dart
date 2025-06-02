@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'chant_detail_screen.dart';
+import '../Chants/chant_detail_screen.dart';
 
 class RechercheScreen extends StatefulWidget {
   const RechercheScreen({super.key});

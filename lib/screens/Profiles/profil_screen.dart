@@ -1,4 +1,4 @@
-import 'package:cantique_liturgique/screens/modifier_profil_screen.dart';
+import 'package:cantique_liturgique/screens/Profiles/modifier_profil_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
