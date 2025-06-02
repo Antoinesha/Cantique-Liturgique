@@ -16,6 +16,8 @@ class _RegistrationStepsScreenState extends State<RegistrationStepsScreen> {
   final Map<String, dynamic> _formData = {
     'nom': '',
     'prenom': '',
+    'sexe': '',
+    'dateNaissance': null,
     // Les autres viendront ensuite
   };
 
@@ -32,6 +34,91 @@ class _RegistrationStepsScreenState extends State<RegistrationStepsScreen> {
     }
   }
 
+  Widget _buildSexeDateStep() {
+    String? selectedSexe;
+    DateTime? selectedDate;
+
+    return StatefulBuilder(
+      builder: (context, setLocalState) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Étape 2 sur X",
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              "Parle-nous un peu plus de toi",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            DropdownButtonFormField<String>(
+              decoration: const InputDecoration(labelText: "Sexe"),
+              items: const [
+                DropdownMenuItem(value: 'Homme', child: Text('Homme')),
+                DropdownMenuItem(value: 'Femme', child: Text('Femme')),
+              ],
+              onChanged: (value) {
+                setLocalState(() => selectedSexe = value);
+                _formData['sexe'] = value;
+              },
+              validator: (value) => value == null ? 'Champ requis' : null,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              selectedDate == null
+                  ? "Date de naissance : non sélectionnée"
+                  : "Date de naissance : ${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton.icon(
+              onPressed: () async {
+                final pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime(2000),
+                  firstDate: DateTime(1950),
+                  lastDate: DateTime.now(),
+                );
+                if (pickedDate != null) {
+                  setLocalState(() => selectedDate = pickedDate);
+                  _formData['date_naissance'] = pickedDate;
+                }
+              },
+              icon: const Icon(Icons.calendar_today),
+              label: const Text("Choisir une date"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepPurple,
+              ),
+            ),
+            const Spacer(),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (selectedSexe != null && selectedDate != null) {
+                    _pageController.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                    setState(() => _currentPage++);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Veuillez remplir les deux champs."),
+                      ),
+                    );
+                  }
+                },
+                child: const Text("Suivant"),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +133,7 @@ class _RegistrationStepsScreenState extends State<RegistrationStepsScreen> {
           physics: const NeverScrollableScrollPhysics(),
           children: [
             _buildNomPrenomStep(),
+            _buildSexeDateStep(),
             // Les autres étapes viendront ensuite
           ],
         ),
