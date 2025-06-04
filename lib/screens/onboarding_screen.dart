@@ -1,4 +1,4 @@
-import 'package:cantique_liturgique/screens/registration_screen.dart';
+import 'package:cantique_liturgique/screens/Auth/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
