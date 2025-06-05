@@ -3,7 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:cantique_liturgique/auth_gate.dart';
+import 'package:cantique_liturgique/screens/presentation_screen.dart';
 import 'package:cantique_liturgique/screens/onboarding_screen.dart';
+import 'package:cantique_liturgique/screens/welcome_screen.dart';
+import 'package:cantique_liturgique/screens/login_screen.dart';
 import 'package:cantique_liturgique/theme.dart';
 
 Future<void> main() async {
@@ -24,12 +27,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Cantique Liturgique',
-      theme: AppTheme.theme,
-      home: const AuthGate(),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+        fontFamily: 'Montserrat',
+      ),
+      initialRoute: '/presentation',
       routes: {
-        '/onboarding': (context) => const OnboardingScreen(),
+        '/presentation': (_) => const PresentationScreen(),
+        // '/onboarding': (_) => const OnboardingScreen(),
+        // '/welcome': (_) => const WelcomeScreen(),
+        // '/login': (_) => const LoginScreen(),
         // Tu peux ajouter ici d’autres routes au besoin
       },
     );

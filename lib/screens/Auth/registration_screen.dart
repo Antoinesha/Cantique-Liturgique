@@ -86,153 +86,293 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text("Enregistrement utilisateur")),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: _pickImage,
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage: _image != null ? FileImage(_image!) : null,
-                  child:
-                      _image == null
-                          ? const Icon(Icons.camera_alt, size: 40)
-                          : null,
+      backgroundColor: theme.colorScheme.surfaceVariant,
+      appBar: AppBar(
+        title: const Text("Créer un compte"),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: theme.colorScheme.surface,
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 24),
+          child: Card(
+            elevation: 8,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(22),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        CircleAvatar(
+                          radius: 54,
+                          backgroundColor: theme.colorScheme.primary
+                              .withOpacity(0.1),
+                          backgroundImage:
+                              _image != null ? FileImage(_image!) : null,
+                          child:
+                              _image == null
+                                  ? Icon(
+                                    Icons.person,
+                                    size: 60,
+                                    color: theme.colorScheme.primary,
+                                  )
+                                  : null,
+                        ),
+                        Positioned(
+                          bottom: 4,
+                          right: 4,
+                          child: Material(
+                            color: theme.colorScheme.primary,
+                            shape: const CircleBorder(),
+                            child: InkWell(
+                              onTap: _pickImage,
+                              customBorder: const CircleBorder(),
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.white,
+                                  size: 22,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: nomController,
+                            decoration: InputDecoration(
+                              labelText: 'Nom',
+                              prefixIcon: const Icon(Icons.badge_outlined),
+                              border: const OutlineInputBorder(),
+                            ),
+                            validator:
+                                (value) =>
+                                    value!.isEmpty ? 'Champ requis' : null,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: TextFormField(
+                            controller: prenomController,
+                            decoration: InputDecoration(
+                              labelText: 'Prénom',
+                              prefixIcon: const Icon(Icons.person_outline),
+                              border: const OutlineInputBorder(),
+                            ),
+                            validator:
+                                (value) =>
+                                    value!.isEmpty ? 'Champ requis' : null,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        labelText: 'Sexe',
+                        prefixIcon: const Icon(Icons.wc),
+                        border: const OutlineInputBorder(),
+                      ),
+                      items: const [
+                        DropdownMenuItem(value: 'Homme', child: Text('Homme')),
+                        DropdownMenuItem(value: 'Femme', child: Text('Femme')),
+                      ],
+                      onChanged: (value) => setState(() => _sexe = value),
+                      validator:
+                          (value) => value == null ? 'Champ requis' : null,
+                      value: _sexe,
+                    ),
+                    const SizedBox(height: 16),
+
+                    GestureDetector(
+                      onTap: () async {
+                        DateTime? date = await showDatePicker(
+                          context: context,
+                          initialDate: _birthDate ?? DateTime(2000),
+                          firstDate: DateTime(1950),
+                          lastDate: DateTime.now(),
+                        );
+                        if (date != null) setState(() => _birthDate = date);
+                      },
+                      child: AbsorbPointer(
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Date de naissance',
+                            prefixIcon: const Icon(Icons.cake_outlined),
+                            border: const OutlineInputBorder(),
+                          ),
+                          controller: TextEditingController(
+                            text:
+                                _birthDate != null
+                                    ? "${_birthDate!.day.toString().padLeft(2, '0')}/${_birthDate!.month.toString().padLeft(2, '0')}/${_birthDate!.year}"
+                                    : "",
+                          ),
+                          validator:
+                              (value) =>
+                                  _birthDate == null ? 'Champ requis' : null,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    TextFormField(
+                      controller: lieuNaissanceController,
+                      decoration: InputDecoration(
+                        labelText: 'Lieu de naissance',
+                        prefixIcon: const Icon(Icons.location_on_outlined),
+                        border: const OutlineInputBorder(),
+                      ),
+                      validator:
+                          (value) => value!.isEmpty ? 'Champ requis' : null,
+                    ),
+                    const SizedBox(height: 16),
+
+                    TextFormField(
+                      controller: paroisseController,
+                      decoration: InputDecoration(
+                        labelText: 'Paroisse d\'appartenance',
+                        prefixIcon: const Icon(Icons.church_outlined),
+                        border: const OutlineInputBorder(),
+                      ),
+                      validator:
+                          (value) => value!.isEmpty ? 'Champ requis' : null,
+                    ),
+                    const SizedBox(height: 16),
+
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        labelText: 'Statut au GALCAM',
+                        prefixIcon: const Icon(Icons.verified_user_outlined),
+                        border: const OutlineInputBorder(),
+                      ),
+                      items: const [
+                        DropdownMenuItem(
+                          value: 'Membre',
+                          child: Text('Membre'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Chef de groupe',
+                          child: Text('Chef de groupe'),
+                        ),
+                        DropdownMenuItem(value: 'Autre', child: Text('Autre')),
+                      ],
+                      onChanged:
+                          (value) => setState(() => _statutGalcam = value),
+                      validator:
+                          (value) => value == null ? 'Champ requis' : null,
+                      value: _statutGalcam,
+                    ),
+                    const SizedBox(height: 16),
+
+                    TextFormField(
+                      controller: fonctionController,
+                      decoration: InputDecoration(
+                        labelText: 'Fonction (si applicable)',
+                        prefixIcon: const Icon(Icons.work_outline),
+                        border: const OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    TextFormField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        prefixIcon: const Icon(Icons.email_outlined),
+                        border: const OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value != null &&
+                            value.isNotEmpty &&
+                            !value.contains('@')) {
+                          return 'Email invalide';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        labelText: 'Niveau musical',
+                        prefixIcon: const Icon(Icons.music_note_outlined),
+                        border: const OutlineInputBorder(),
+                      ),
+                      items: const [
+                        DropdownMenuItem(
+                          value: 'Débutant',
+                          child: Text('Débutant'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Intermédiaire',
+                          child: Text('Intermédiaire'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Avancé',
+                          child: Text('Avancé'),
+                        ),
+                      ],
+                      onChanged:
+                          (value) => setState(() => _niveauMusical = value),
+                      validator:
+                          (value) => value == null ? 'Champ requis' : null,
+                      value: _niveauMusical,
+                    ),
+                    const SizedBox(height: 16),
+
+                    TextFormField(
+                      controller: instrumentsController,
+                      decoration: InputDecoration(
+                        labelText: 'Instruments pratiqués',
+                        prefixIcon: const Icon(Icons.piano_outlined),
+                        border: const OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 28),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        icon: const Icon(Icons.check_circle_outline),
+                        label: const Text(
+                          'Valider',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          backgroundColor: theme.colorScheme.primary,
+                          foregroundColor: Colors.white,
+                          elevation: 2,
+                        ),
+                        onPressed: _submitForm,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
-
-              TextFormField(
-                controller: nomController,
-                decoration: const InputDecoration(labelText: 'Nom'),
-                validator: (value) => value!.isEmpty ? 'Champ requis' : null,
-              ),
-              TextFormField(
-                controller: prenomController,
-                decoration: const InputDecoration(labelText: 'Prénom'),
-                validator: (value) => value!.isEmpty ? 'Champ requis' : null,
-              ),
-
-              DropdownButtonFormField<String>(
-                decoration: const InputDecoration(labelText: 'Sexe'),
-                items: const [
-                  DropdownMenuItem(value: 'Homme', child: Text('Homme')),
-                  DropdownMenuItem(value: 'Femme', child: Text('Femme')),
-                ],
-                onChanged: (value) => _sexe = value,
-                validator: (value) => value == null ? 'Champ requis' : null,
-              ),
-
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  const Text("Date de naissance: "),
-                  const SizedBox(width: 10),
-                  Text(
-                    _birthDate != null
-                        ? "${_birthDate!.day}/${_birthDate!.month}/${_birthDate!.year}"
-                        : "Aucune",
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      DateTime? date = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime(2000),
-                        firstDate: DateTime(1950),
-                        lastDate: DateTime.now(),
-                      );
-                      if (date != null) setState(() => _birthDate = date);
-                    },
-                    child: const Text("Choisir"),
-                  ),
-                ],
-              ),
-
-              TextFormField(
-                controller: lieuNaissanceController,
-                decoration: const InputDecoration(
-                  labelText: 'Lieu de naissance',
-                ),
-                validator: (value) => value!.isEmpty ? 'Champ requis' : null,
-              ),
-
-              TextFormField(
-                controller: paroisseController,
-                decoration: const InputDecoration(
-                  labelText: 'Paroisse d\'appartenance',
-                ),
-                validator: (value) => value!.isEmpty ? 'Champ requis' : null,
-              ),
-
-              DropdownButtonFormField<String>(
-                decoration: const InputDecoration(
-                  labelText: 'Statut au GALCAM',
-                ),
-                items: const [
-                  DropdownMenuItem(value: 'Membre', child: Text('Membre')),
-                  DropdownMenuItem(
-                    value: 'Chef de groupe',
-                    child: Text('Chef de groupe'),
-                  ),
-                  DropdownMenuItem(value: 'Autre', child: Text('Autre')),
-                ],
-                onChanged: (value) => _statutGalcam = value,
-                validator: (value) => value == null ? 'Champ requis' : null,
-              ),
-
-              TextFormField(
-                controller: fonctionController,
-                decoration: const InputDecoration(
-                  labelText: 'Fonction (si applicable)',
-                ),
-              ),
-
-              TextFormField(
-                controller: emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value != null &&
-                      value.isNotEmpty &&
-                      !value.contains('@')) {
-                    return 'Email invalide';
-                  }
-                  return null;
-                },
-              ),
-
-              DropdownButtonFormField<String>(
-                decoration: const InputDecoration(labelText: 'Niveau musical'),
-                items: const [
-                  DropdownMenuItem(value: 'Débutant', child: Text('Débutant')),
-                  DropdownMenuItem(
-                    value: 'Intermédiaire',
-                    child: Text('Intermédiaire'),
-                  ),
-                  DropdownMenuItem(value: 'Avancé', child: Text('Avancé')),
-                ],
-                onChanged: (value) => _niveauMusical = value,
-                validator: (value) => value == null ? 'Champ requis' : null,
-              ),
-
-              TextFormField(
-                controller: instrumentsController,
-                decoration: const InputDecoration(
-                  labelText: 'Instruments pratiqués',
-                ),
-              ),
-
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: const Text('Valider'),
-              ),
-            ],
+            ),
           ),
         ),
       ),

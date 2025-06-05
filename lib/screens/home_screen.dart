@@ -3,6 +3,7 @@ import 'package:cantique_liturgique/screens/Chants/favoris_screen.dart';
 import 'package:cantique_liturgique/screens/Profiles/profil_screen.dart';
 import 'package:cantique_liturgique/screens/programme_liturgique_screen.dart';
 import 'package:cantique_liturgique/screens/Search/recherche_screen.dart';
+import 'package:cantique_liturgique/screens/settings.dart'; // Ajout import
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const ProgrammeLiturgiqueScreen(),
     //Center(child: Text("👤 Profil utilisateur")),
     const ProfilScreen(),
+    const SettingsScreen(), // Ajout de l'écran paramètres
   ];
 
   @override
@@ -51,6 +53,10 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Programme',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings), // Nouvelle icône paramètres
+            label: 'Paramètres',
+          ),
         ],
       ),
     );
