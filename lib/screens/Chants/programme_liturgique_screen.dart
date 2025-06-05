@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Chants/liste_chants_par_categorie_screen.dart';
+import 'liste_chants_par_categorie_screen.dart';
 
 class ProgrammeLiturgiqueScreen extends StatelessWidget {
   const ProgrammeLiturgiqueScreen({super.key});

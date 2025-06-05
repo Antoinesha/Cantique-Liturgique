@@ -1,5 +1,5 @@
 import 'package:cantique_liturgique/screens/Auth/registration_screen.dart';
-import 'package:cantique_liturgique/screens/login_screen.dart';
+import 'package:cantique_liturgique/screens/Auth/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -89,7 +89,7 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                   child: const Text(
                     "S'inscrire",
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
                 ),
               ),

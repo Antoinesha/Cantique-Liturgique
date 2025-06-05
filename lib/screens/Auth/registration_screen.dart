@@ -25,6 +25,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final fonctionController = TextEditingController();
   final emailController = TextEditingController();
   final instrumentsController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   String? _sexe;
   DateTime? _birthDate;
@@ -40,18 +42,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       try {
-        String? userId;
+        final cred = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
 
-        if (emailController.text.isNotEmpty) {
-          final cred = await FirebaseAuth.instance
-              .createUserWithEmailAndPassword(
-                email: emailController.text,
-                password: "PasswordTemp123!", // temporaire
-              );
-          userId = cred.user!.uid;
-        } else {
-          userId = FirebaseFirestore.instance.collection('users').doc().id;
-        }
+        final userId = cred.user!.uid;
 
         await FirebaseFirestore.instance.collection('users').doc(userId).set({
           'nom': nomController.text,
@@ -65,22 +61,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           'email': emailController.text,
           'niveau_musical': _niveauMusical,
           'instruments': instrumentsController.text,
-          'photo_url': '', // à faire plus tard avec Firebase Storage
+          'photo_url': '', // à faire plus tard
           'timestamp': FieldValue.serverTimestamp(),
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Compte enregistré avec succès")),
         );
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+        );
       } catch (e) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text('Erreur : $e')));
       }
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
-      );
     }
   }
 
@@ -92,8 +89,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       appBar: AppBar(
         title: const Text("Créer un compte"),
         centerTitle: true,
-        elevation: 0,
         backgroundColor: theme.colorScheme.surface,
+        elevation: 0,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -108,7 +105,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               child: Form(
                 key: _formKey,
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Stack(
                       alignment: Alignment.bottomRight,
@@ -138,7 +134,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               onTap: _pickImage,
                               customBorder: const CircleBorder(),
                               child: const Padding(
-                                padding: EdgeInsets.all(8.0),
+                                padding: EdgeInsets.all(8),
                                 child: Icon(
                                   Icons.camera_alt,
                                   color: Colors.white,
@@ -157,10 +153,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: nomController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Nom',
-                              prefixIcon: const Icon(Icons.badge_outlined),
-                              border: const OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.badge_outlined),
+                              border: OutlineInputBorder(),
                             ),
                             validator:
                                 (value) =>
@@ -171,10 +167,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: prenomController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Prénom',
-                              prefixIcon: const Icon(Icons.person_outline),
-                              border: const OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.person_outline),
+                              border: OutlineInputBorder(),
                             ),
                             validator:
                                 (value) =>
@@ -186,10 +182,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     const SizedBox(height: 16),
 
                     DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Sexe',
-                        prefixIcon: const Icon(Icons.wc),
-                        border: const OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.wc),
+                        border: OutlineInputBorder(),
                       ),
                       items: const [
                         DropdownMenuItem(value: 'Homme', child: Text('Homme')),
@@ -214,10 +210,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       },
                       child: AbsorbPointer(
                         child: TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Date de naissance',
-                            prefixIcon: const Icon(Icons.cake_outlined),
-                            border: const OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.cake_outlined),
+                            border: OutlineInputBorder(),
                           ),
                           controller: TextEditingController(
                             text:
@@ -235,10 +231,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                     TextFormField(
                       controller: lieuNaissanceController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Lieu de naissance',
-                        prefixIcon: const Icon(Icons.location_on_outlined),
-                        border: const OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.location_on_outlined),
+                        border: OutlineInputBorder(),
                       ),
                       validator:
                           (value) => value!.isEmpty ? 'Champ requis' : null,
@@ -247,10 +243,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                     TextFormField(
                       controller: paroisseController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Paroisse d\'appartenance',
-                        prefixIcon: const Icon(Icons.church_outlined),
-                        border: const OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.church_outlined),
+                        border: OutlineInputBorder(),
                       ),
                       validator:
                           (value) => value!.isEmpty ? 'Champ requis' : null,
@@ -258,19 +254,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     const SizedBox(height: 16),
 
                     DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Statut au GALCAM',
-                        prefixIcon: const Icon(Icons.verified_user_outlined),
-                        border: const OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.verified_user_outlined),
+                        border: OutlineInputBorder(),
                       ),
                       items: const [
                         DropdownMenuItem(
-                          value: 'Membre',
-                          child: Text('Membre'),
+                          value: 'Membre du Bureau',
+                          child: Text('Membre du Bureau'),
                         ),
                         DropdownMenuItem(
-                          value: 'Chef de groupe',
-                          child: Text('Chef de groupe'),
+                          value: 'President',
+                          child: Text('President'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Simple Liturge',
+                          child: Text('Simple Liturge'),
                         ),
                         DropdownMenuItem(value: 'Autre', child: Text('Autre')),
                       ],
@@ -284,25 +284,25 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                     TextFormField(
                       controller: fonctionController,
-                      decoration: InputDecoration(
-                        labelText: 'Fonction (si applicable)',
-                        prefixIcon: const Icon(Icons.work_outline),
-                        border: const OutlineInputBorder(),
+                      decoration: const InputDecoration(
+                        labelText: 'Fonction (Ex: poste dans le bureau)',
+                        prefixIcon: Icon(Icons.work_outline),
+                        border: OutlineInputBorder(),
                       ),
                     ),
                     const SizedBox(height: 16),
 
                     TextFormField(
                       controller: emailController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Email',
-                        prefixIcon: const Icon(Icons.email_outlined),
-                        border: const OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.email_outlined),
+                        border: OutlineInputBorder(),
                       ),
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
-                        if (value != null &&
-                            value.isNotEmpty &&
+                        if (value == null ||
+                            value.isEmpty ||
                             !value.contains('@')) {
                           return 'Email invalide';
                         }
@@ -311,11 +311,48 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                     const SizedBox(height: 16),
 
+                    TextFormField(
+                      controller: passwordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Mot de passe',
+                        prefixIcon: Icon(Icons.lock_outline),
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Mot de passe requis';
+                        }
+                        if (value.length < 6) {
+                          return 'Au moins 6 caractères';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+
+                    TextFormField(
+                      controller: confirmPasswordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Confirmer le mot de passe',
+                        prefixIcon: Icon(Icons.lock_open_outlined),
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value != passwordController.text) {
+                          return 'Les mots de passe ne correspondent pas';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+
                     DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Niveau musical',
-                        prefixIcon: const Icon(Icons.music_note_outlined),
-                        border: const OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.music_note_outlined),
+                        border: OutlineInputBorder(),
                       ),
                       items: const [
                         DropdownMenuItem(
@@ -341,10 +378,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                     TextFormField(
                       controller: instrumentsController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Instruments pratiqués',
-                        prefixIcon: const Icon(Icons.piano_outlined),
-                        border: const OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.piano_outlined),
+                        border: OutlineInputBorder(),
                       ),
                     ),
                     const SizedBox(height: 28),

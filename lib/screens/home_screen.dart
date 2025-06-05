@@ -1,9 +1,9 @@
 import 'package:cantique_liturgique/screens/Chants/chants_screen.dart';
 import 'package:cantique_liturgique/screens/Chants/favoris_screen.dart';
 import 'package:cantique_liturgique/screens/Profiles/profil_screen.dart';
-import 'package:cantique_liturgique/screens/programme_liturgique_screen.dart';
+import 'package:cantique_liturgique/screens/Chants/programme_liturgique_screen.dart';
 import 'package:cantique_liturgique/screens/Search/recherche_screen.dart';
-import 'package:cantique_liturgique/screens/settings.dart'; // Ajout import
+import 'package:cantique_liturgique/screens/Profiles/settings.dart'; // Ajout import
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Receuil liturgique')),
+      // appBar: AppBar(title: const Text('Receuil liturgique')),
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,

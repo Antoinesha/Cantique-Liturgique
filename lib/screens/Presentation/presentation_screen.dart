@@ -1,4 +1,4 @@
-import 'package:cantique_liturgique/screens/welcome_screen.dart';
+import 'package:cantique_liturgique/screens/Auth/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 class PresentationScreen extends StatelessWidget {

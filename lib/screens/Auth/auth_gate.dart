@@ -1,7 +1,7 @@
-import 'package:cantique_liturgique/screens/splash_screen.dart';
+import 'package:cantique_liturgique/screens/Presentation/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'screens/home_screen.dart';
+import '../home_screen.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});

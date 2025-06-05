@@ -1,4 +1,5 @@
 import 'package:cantique_liturgique/screens/Auth/registration_screen.dart';
+import 'package:cantique_liturgique/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -26,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _email.trim(),
         password: _password,
       );
-      Navigator.of(context).pushReplacementNamed('/'); // Accueil principal
+      Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
     } on FirebaseAuthException catch (e) {
       setState(() {
         _error = e.message;
