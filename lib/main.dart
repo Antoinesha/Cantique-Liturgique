@@ -33,14 +33,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         fontFamily: 'Montserrat',
       ),
-      initialRoute: '/presentation',
-      routes: {
-        '/presentation': (_) => const PresentationScreen(),
-        // '/onboarding': (_) => const OnboardingScreen(),
-        // '/welcome': (_) => const WelcomeScreen(),
-        // '/login': (_) => const LoginScreen(),
-        // Tu peux ajouter ici d’autres routes au besoin
-      },
+      home: PresentationScreen(),
     );
   }
 }

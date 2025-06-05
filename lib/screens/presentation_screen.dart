@@ -1,3 +1,4 @@
+import 'package:cantique_liturgique/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 class PresentationScreen extends StatelessWidget {
@@ -41,9 +42,11 @@ class PresentationScreen extends StatelessWidget {
                 ),
                 child: ElevatedButton(
                   onPressed:
-                      () => Navigator.pushReplacementNamed(
+                      () => Navigator.push(
                         context,
-                        '/onboarding',
+                        MaterialPageRoute(
+                          builder: (_) => const WelcomeScreen(),
+                        ),
                       ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

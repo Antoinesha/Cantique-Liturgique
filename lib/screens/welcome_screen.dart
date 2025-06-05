@@ -1,3 +1,5 @@
+import 'package:cantique_liturgique/screens/Auth/registration_screen.dart';
+import 'package:cantique_liturgique/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -45,7 +47,11 @@ class WelcomeScreen extends StatelessWidget {
                   vertical: 8,
                 ),
                 child: ElevatedButton(
-                  onPressed: () => Navigator.pushNamed(context, '/login'),
+                  onPressed:
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const LoginScreen()),
+                      ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
                     foregroundColor: Colors.white,
@@ -66,7 +72,13 @@ class WelcomeScreen extends StatelessWidget {
                   vertical: 8,
                 ),
                 child: OutlinedButton(
-                  onPressed: () => Navigator.pushNamed(context, '/register'),
+                  onPressed:
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const RegistrationScreen(),
+                        ),
+                      ),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.deepPurple,
                     minimumSize: const Size(double.infinity, 50),

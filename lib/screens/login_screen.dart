@@ -1,3 +1,4 @@
+import 'package:cantique_liturgique/screens/Auth/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -150,21 +151,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                 "Mot de passe oublié ?",
                                 style: TextStyle(
                                   color: Colors.deepPurple,
-                                  fontSize: 5.0,
+                                  fontSize: 13,
                                 ),
                               ),
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(context, '/registration');
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const RegistrationScreen(),
+                                  ),
+                                );
                               },
                               child: const Text(
                                 "Vous n'avez pas de compte ? Créez-en un ici.",
                                 style: TextStyle(
                                   color: Colors.deepPurple,
                                   decoration: TextDecoration.underline,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 10,
+                                  // fontWeight: FontWeight.w500,
+                                  fontSize: 14,
                                 ),
                               ),
                             ),
