@@ -27,7 +27,13 @@ class ChantsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Cantiques (hors-ligne activé)")),
+      appBar: AppBar(
+        title: const Text(
+          "Chants liturgiques (hors-ligne activé)",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+      ),
       body: FutureBuilder<List<DocumentSnapshot>>(
         future: _fetchChants(),
         builder: (context, snapshot) {
