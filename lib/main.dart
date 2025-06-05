@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:cantique_liturgique/screens/Auth/auth_gate.dart';
 import 'package:cantique_liturgique/screens/Presentation/presentation_screen.dart';
-import 'package:cantique_liturgique/screens/Presentation/onboarding_screen.dart';
-import 'package:cantique_liturgique/screens/Auth/welcome_screen.dart';
-import 'package:cantique_liturgique/screens/Auth/login_screen.dart';
-import 'package:cantique_liturgique/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

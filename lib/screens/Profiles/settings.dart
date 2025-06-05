@@ -1,3 +1,4 @@
+import 'package:cantique_liturgique/screens/Auth/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cantique_liturgique/screens/Profiles/profil_screen.dart';
@@ -5,10 +6,22 @@ import 'package:cantique_liturgique/screens/Profiles/profil_screen.dart';
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
+  /// Déconnecte l'utilisateur actuel de l'application.
+  ///
+  /// Cette méthode utilise FirebaseAuth pour effectuer la déconnexion.
+  /// Après la déconnexion, l'utilisateur est redirigé vers l'écran d'accueil
+  /// ou de connexion en supprimant toutes les routes précédentes de la pile de navigation.
+  ///
+  /// [context] : Le contexte de construction utilisé pour la navigation.
   Future<void> _signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     // Retour à l'écran de connexion ou accueil après déconnexion
-    Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+    // Navigator.push(context, MaterialPageRoute(builder: (_) => WelcomeScreen()));
+    // Supprimer toutes les routes précédentes de la pile de navigation
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => WelcomeScreen()),
+      (route) => false,
+    );
   }
 
   @override
@@ -77,7 +90,14 @@ class SettingsScreen extends StatelessWidget {
             const SizedBox(height: 40),
             Center(
               child: Text(
-                'Version 1.0.0',
+                'Version 1.0.0 ',
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+              ),
+            ),
+            const SizedBox(height: 50),
+            Center(
+              child: Text(
+                'Développé par Kant\'s Développeur Full-Stack mobile',
                 style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
               ),
             ),
