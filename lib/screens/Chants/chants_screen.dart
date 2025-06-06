@@ -28,6 +28,7 @@ class ChantsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text(
           "Chants liturgiques (hors-ligne activé)",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

@@ -1,3 +1,4 @@
+import 'package:cantique_liturgique/screens/Presentation/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -13,7 +14,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 4), () {
-      Navigator.pushReplacementNamed(context, '/onboarding'); // prochain écran
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => OnboardingScreen()),
+      ); // prochain écran
     });
   }
 

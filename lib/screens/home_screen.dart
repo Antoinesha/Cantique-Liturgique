@@ -1,6 +1,5 @@
 import 'package:cantique_liturgique/screens/Chants/chants_screen.dart';
 import 'package:cantique_liturgique/screens/Chants/favoris_screen.dart';
-import 'package:cantique_liturgique/screens/Profiles/profil_screen.dart';
 import 'package:cantique_liturgique/screens/Chants/programme_liturgique_screen.dart';
 import 'package:cantique_liturgique/screens/Search/recherche_screen.dart';
 import 'package:cantique_liturgique/screens/Profiles/settings.dart'; // Ajout import
@@ -17,17 +16,11 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    //Center(child: Text("🏠 Accueil")),
     const ChantsScreen(),
     const RechercheScreen(),
-
-    //Center(child: Text("🔍 Recherche de chants")),
-    //Center(child: Text("⭐ Favoris")),
     const FavorisScreen(),
     const ProgrammeLiturgiqueScreen(),
-    //Center(child: Text("👤 Profil utilisateur")),
-    const ProfilScreen(),
-    const SettingsScreen(), // Ajout de l'écran paramètres
+    const SettingsScreen(), // L'écran paramètres reste
   ];
 
   @override
@@ -52,9 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.calendar_today),
             label: 'Programme',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
+          // Suppression de l'icône Profil
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings), // Nouvelle icône paramètres
+            icon: Icon(Icons.settings),
             label: 'Paramètres',
           ),
         ],

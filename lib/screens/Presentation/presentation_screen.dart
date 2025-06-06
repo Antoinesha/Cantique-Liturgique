@@ -1,4 +1,5 @@
 import 'package:cantique_liturgique/screens/Auth/welcome_screen.dart';
+import 'package:cantique_liturgique/screens/Presentation/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 
 class PresentationScreen extends StatelessWidget {
@@ -45,7 +46,7 @@ class PresentationScreen extends StatelessWidget {
                       () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const WelcomeScreen(),
+                          builder: (_) => const OnboardingScreen(),
                         ),
                       ),
                   style: ElevatedButton.styleFrom(

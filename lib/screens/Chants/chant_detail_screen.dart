@@ -57,41 +57,51 @@ class _ChantDetailScreenState extends State<ChantDetailScreen> {
   }
 
   Future<void> _toggleFavori() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
     if (_chantId == null || _isLoadingFavori) return;
+    if (uid == null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Vous devez être connecté pour ajouter un favori.")),
+        );
+      }
+      return;
+    }
     setState(() {
       _isLoadingFavori = true;
       _isFavorite = !_isFavorite; // Met à jour l'état local immédiatement
     });
 
-    final uid = FirebaseAuth.instance.currentUser?.uid;
-    if (uid == null) {
-      setState(() {
-        _isLoadingFavori = false;
-      });
-      return;
-    }
-
     final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
     final userDoc = await userRef.get();
     final List<dynamic> favoris = List.from(userDoc['favoris'] ?? []);
 
+    String message;
     if (_isFavorite) {
       if (!favoris.contains(_chantId)) {
         favoris.add(_chantId);
+        message = "Ajouté aux favoris";
+      } else {
+        message = "Déjà dans les favoris";
       }
     } else {
       favoris.remove(_chantId);
+      message = "Retiré des favoris";
     }
 
     await userRef.update({'favoris': favoris});
     setState(() {
       _isLoadingFavori = false;
     });
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(

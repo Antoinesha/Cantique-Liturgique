@@ -1,3 +1,4 @@
+import 'package:cantique_liturgique/screens/Presentation/presentation_screen.dart';
 import 'package:cantique_liturgique/screens/Presentation/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +25,7 @@ class AuthGate extends StatelessWidget {
         }
 
         // Sinon, vers écran de connexion (ou onboarding si tu préfères)
-        return const SplashScreen();
+        return const PresentationScreen();
       },
     );
   }
