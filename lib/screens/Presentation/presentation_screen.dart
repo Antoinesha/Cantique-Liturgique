@@ -21,7 +21,7 @@ class PresentationScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              Image.asset('assets/images/presentation.png', height: 180),
+              //Image.asset('assets/images/presentation.png', height: 180),
               const SizedBox(height: 30),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 32),

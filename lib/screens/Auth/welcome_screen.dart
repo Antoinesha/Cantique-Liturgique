@@ -21,7 +21,7 @@ class WelcomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              Image.asset('assets/images/welcome.png', height: 160),
+              //Image.asset('assets/images/welcome.png', height: 160),
               const SizedBox(height: 30),
               const Text(
                 "Bienvenue !",

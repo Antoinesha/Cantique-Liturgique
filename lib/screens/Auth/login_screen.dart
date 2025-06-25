@@ -65,20 +65,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     key: _formKey,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         const Text(
                           "Connexion",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
                             color: Colors.deepPurple,
                           ),
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 32),
                         TextFormField(
                           decoration: const InputDecoration(
                             labelText: "Email",
                             prefixIcon: Icon(Icons.email),
+                            border: OutlineInputBorder(),
                           ),
                           keyboardType: TextInputType.emailAddress,
                           validator:
@@ -88,11 +91,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                       : "Entrez un email valide",
                           onChanged: (v) => _email = v,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 20),
                         TextFormField(
                           decoration: const InputDecoration(
                             labelText: "Mot de passe",
                             prefixIcon: Icon(Icons.lock),
+                            border: OutlineInputBorder(),
                           ),
                           obscureText: true,
                           validator:
@@ -102,11 +106,30 @@ class _LoginScreenState extends State<LoginScreen> {
                                       : "Au moins 6 caractères",
                           onChanged: (v) => _password = v,
                         ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {
+                              // TODO: Ajout mot de passe oublié
+                            },
+                            child: const Text(
+                              "Mot de passe oublié ?",
+                              style: TextStyle(
+                                color: Colors.deepPurple,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        ),
                         if (_error != null) ...[
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 8),
                           Text(
                             _error!,
-                            style: const TextStyle(color: Colors.red),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 14,
+                            ),
                           ),
                         ],
                         const SizedBox(height: 24),
@@ -131,8 +154,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             child:
                                 _loading
-                                    ? const CircularProgressIndicator(
-                                      color: Colors.white,
+                                    ? const SizedBox(
+                                      height: 22,
+                                      width: 22,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 2.5,
+                                      ),
                                     )
                                     : const Text(
                                       "Se connecter",
@@ -140,42 +168,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                           ),
                         ),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                // TODO: Ajout mot de passe oublié
-                              },
-                              child: const Text(
-                                "Mot de passe oublié ?",
-                                style: TextStyle(
-                                  color: Colors.deepPurple,
-                                  fontSize: 13,
+                        const SizedBox(height: 18),
+                        Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const RegistrationScreen(),
                                 ),
+                              );
+                            },
+                            child: const Text(
+                              "Vous n'avez pas de compte ? Créez-en un ici.",
+                              style: TextStyle(
+                                color: Colors.deepPurple,
+                                decoration: TextDecoration.underline,
+                                fontSize: 15,
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const RegistrationScreen(),
-                                  ),
-                                );
-                              },
-                              child: const Text(
-                                "Vous n'avez pas de compte ? Créez-en un ici.",
-                                style: TextStyle(
-                                  color: Colors.deepPurple,
-                                  decoration: TextDecoration.underline,
-                                  // fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
